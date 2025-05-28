@@ -9,6 +9,7 @@ handle_http("main_server", "/", function(req)
 <html>
 <head>
     <title>TabNews Feed</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -45,8 +46,36 @@ handle_http("main_server", "/", function(req)
             font-size: 0.9em;
         }
         .post-content {
-            white-space: pre-wrap;
             line-height: 1.6;
+        }
+        .post-content h1, .post-content h2, .post-content h3 {
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .post-content p {
+            margin: 1em 0;
+        }
+        .post-content code {
+            background: #f0f2f5;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .post-content pre {
+            background: #f0f2f5;
+            padding: 1em;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .post-content pre code {
+            background: none;
+            padding: 0;
+        }
+        .post-content blockquote {
+            border-left: 4px solid #1a73e8;
+            margin: 1em 0;
+            padding-left: 1em;
+            color: #666;
         }
         .back-button {
             display: inline-block;
@@ -98,7 +127,7 @@ handle_http("main_server", "/", function(req)
                         <div class="post-meta">
                             Por ${post.owner_username} • ${new Date(post.created_at).toLocaleDateString('pt-BR')}
                         </div>
-                        <div class="post-content">${post.body}</div>
+                        <div class="post-content">${marked.parse(post.body)}</div>
                     `;
                 })
                 .catch(error => console.error('Erro ao carregar post:', error));
@@ -131,6 +160,7 @@ handle_http("main_server", "/post/*", function(req)
 <html>
 <head>
     <title>TabNews Post</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -162,8 +192,36 @@ handle_http("main_server", "/post/*", function(req)
             font-size: 0.9em;
         }
         .post-content {
-            white-space: pre-wrap;
             line-height: 1.6;
+        }
+        .post-content h1, .post-content h2, .post-content h3 {
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .post-content p {
+            margin: 1em 0;
+        }
+        .post-content code {
+            background: #f0f2f5;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .post-content pre {
+            background: #f0f2f5;
+            padding: 1em;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .post-content pre code {
+            background: none;
+            padding: 0;
+        }
+        .post-content blockquote {
+            border-left: 4px solid #1a73e8;
+            margin: 1em 0;
+            padding-left: 1em;
+            color: #666;
         }
         .back-button {
             display: inline-block;
@@ -195,7 +253,7 @@ handle_http("main_server", "/post/*", function(req)
                     <div class="post-meta">
                         Por ${post.owner_username} • ${new Date(post.created_at).toLocaleDateString('pt-BR')}
                     </div>
-                    <div class="post-content">${post.body}</div>
+                    <div class="post-content">${marked.parse(post.body)}</div>
                 `;
             })
             .catch(error => console.error('Erro ao carregar post:', error));
